@@ -44,12 +44,6 @@
     {title:"图论",author:"gym3",time:"2021-1-5",state:"结束"},
     {title:"博弈论",author:"gym5",time:"2021-1-5",state:"未开始"},
   ];
-  // let courseDatas=[];
-  // let courseData=[];
-  // let pageSizeOptions=['10', '20', '30', '40', '50'];
-  // let current=1;
-  // let pageSize=10;
-  // let total=50;
   export default {
     data(){
       return {
@@ -62,26 +56,37 @@
     },
     created() {
       this.total = courseDatas.length;
-      let start = 0;
-      let end = Math.min(5,this.total);
-      this.courseData=[];
-      for( ;start<end;start++){
-        this.courseData.push(courseDatas[start]);
-      }
-      console.log(this.courseData);
+      this.changePage(this.current, this.pageSize);//创建时填充数据
     },
     methods: {
-      // newPage(){
-      //   this.total = courseDatas.length;
-      // },
-      onShowSizeChange(Pcurrent, PpageSize) {
-        this.pageSize = PpageSize;
-        this.current = Pcurrent;
+      /**
+       *  重新设置每页条数时，触发此方法
+       *  内容：
+       *      更新当前的页码，每页条数
+       *      需要重新调用跳转页面的功能，否则会出现空白页面
+       *          场景重现：删除this.changePage(this.current, this.pageSize);
+       *                  数据多条时，点击最后一页，再把每页条数调大，会出现空白页面。
+       *                  原因：current已更新为最新的，但分页组件中的current还停留在更新前的
+       * @param current 页码
+       * @param pageSize 每页的页数
+       */
+      onShowSizeChange(current, pageSize) {
+        this.pageSize = pageSize;
+        this.current = current;
         this.changePage(this.current, this.pageSize);
       },
-      changePage(Ppage, PpageSize){
-        let start = (Ppage-1)*PpageSize;
-        let end = Math.min(Ppage*PpageSize,this.total);
+      /**
+       * 翻页时更新数据
+       * courseDatas为总的数据，this.courseData为页面中的数据 ---------可以做优化_ZRK
+       * 内容：
+       *    设置显示的数据的边界
+       *    将this.courseData的数据更新，页面会自动渲染-----爽
+       * @param page  页码
+       * @param pageSize  每页页数
+       */
+      changePage(page, pageSize){
+        let start = (page-1)*pageSize;
+        let end = Math.min(page*pageSize,this.total);
         this.courseData=[];
         for( ;start<end;start++){
           this.courseData.push(courseDatas[start]);

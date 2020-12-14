@@ -15,7 +15,7 @@
         <a-menu-item key="2" @click="clickByCourse">
           <a-icon type="mail"/>课程
         </a-menu-item>
-        <a-menu-item key="3" @click="clickByContest">
+        <a-menu-item key="3" @click="clickByContests">
           比赛
         </a-menu-item>
         <a-menu-item style="float: right">
@@ -74,7 +74,7 @@ export default {
       menuMap:{
         "/":"1",
         "/course":"2",
-        "/contest":"3"
+        "/contests":"3"
       },
       selectMenu: [],
       ModalText: 'Content of the modal',
@@ -102,8 +102,8 @@ export default {
     clickByCourse(){
       this.toOtherPath("2","/course");
     },
-    clickByContest(){
-      this.toOtherPath("3","/contest");
+    clickByContests(){
+      this.toOtherPath("3","/contests");
     },
     showModal() {
       console.log(this.selectMenu);
